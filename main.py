@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from utils.functions import *
 from utils.validators import *
@@ -17,17 +18,28 @@ problems = {
     "fila": row_validator(gdf),
     "idop_idgeo": unique_validator(gdf, "IDOP_idgeo")
 }
-        
-for key, problems_list in problems.items():
-    if problems_list:
-        print(f"Problemas en {key}s:")
-        for problem in problems_list:
-            print(f"\t{problem}")
+
+with open(f"problems.log", "a") as logger:
+    logger.write("Fecha Reporte: " + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\n")
+    logger.write(f"Capa del reporte: {shapefile}\n")
+    for key, problems_list in problems.items():
+        if problems_list:
+            msg = f"Problemas en {key}:"
+            logger.write(f"{msg}\n")
+            print(msg)
+            for problem in problems_list:
+                msg = f"\t- {problem}"
+                logger.write(f"{msg}\n")
+                print(msg)
+            print()
+        else:
+            msg = f"La {key} cumplen con los estándares de Grupo Geográfico"
+            logger.write(f"{msg}\n")
+            print(msg)
+        logger.write(f"\n")
         print()
-    else:
-        print(f"Las {key}s cumplen con los estándares de Grupo Geográfico")
-    print()
-    
+    logger.close()
+
 try:
     gdf = change_field_names(gdf)
     gdf = transform_nulls(gdf)
