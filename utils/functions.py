@@ -36,6 +36,17 @@ def load_geodataframe(shapefile_path):
         exit(1)
         
 def transform_nulls(gdf):
+    """
+    The function `transform_nulls` replaces null values in numeric columns with 0 and in string columns
+    with "No aplica" except for "N/A".
+    
+    :param gdf: A GeoDataFrame (gdf) is a tabular data structure that contains a geometry column
+    representing geometries like points, lines, or polygons, along with other attribute columns. It is
+    commonly used in geospatial analysis and visualization
+    :return: The function `transform_nulls` is returning the GeoDataFrame `gdf` after transforming null
+    values in numeric columns to 0 and in string columns to "No aplica" if the value is either null or
+    "N/A".
+    """
     for col in gdf.columns:
         if pd.api.types.is_numeric_dtype(gdf[col]):
             gdf[col] = gdf[col].apply(lambda x: x if pd.notna(x) else 0)

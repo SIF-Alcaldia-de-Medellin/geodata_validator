@@ -9,7 +9,8 @@ gdf = load_geodataframe(shapefile_path)
 
 problems = {
     "columna": column_validator(gdf),
-    "fila": row_validator(gdf)
+    "fila": row_validator(gdf),
+    "idop_idgeo": unique_validator(gdf, "IDOP_idgeo")
 }
         
 for key, problems_list in problems.items():

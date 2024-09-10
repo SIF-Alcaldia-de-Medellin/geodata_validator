@@ -45,3 +45,27 @@ def row_validator(gdf):
                 problems.append(f"La columna '{col}' contiene valores numéricos en columnas no numéricas.")
                 
     return problems
+
+def unique_validator(gdf, column_name):
+    """
+    The function `unique_validator` checks if a specified column in a pandas DataFrame has duplicate
+    values and returns a corresponding message.
+    
+    :param gdf: A GeoDataFrame (gdf) is a tabular data structure that contains a GeoSeries. It is
+    essentially a pandas DataFrame with an additional column that holds geometry data. This allows for
+    spatial operations and analysis to be performed on the data
+    :param column_name: The `column_name` parameter is the name of the column in the GeoDataFrame
+    (`gdf`) that you want to validate for uniqueness
+    :return: The function `unique_validator` returns a list containing a message indicating whether
+    there are duplicate values in the specified column of the given DataFrame `gdf`. The message will
+    either state "No tiene campos duplicados en la columna '{column_name}'" if there are no duplicates,
+    or "Tiene campos duplicados en la columna '{column_name}'" if there are duplicates. If an exception
+    occurs during
+    """
+    try:
+        column_name = column_name.lower()
+        unique_series = gdf.nunique()
+        unique_series.index = [index.lower() for index in unique_series.index]
+        return [f"No tiene campos duplicados en la columna '{column_name}'" if unique_series[column_name] == len(gdf) else f"Tiene campos duplicados en la columna '{column_name}'"]
+    except Exception:
+        return [f"Ha ocurrido un error al validar si existen campos nulos en la columna {column_name}"]
