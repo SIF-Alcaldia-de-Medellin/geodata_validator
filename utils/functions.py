@@ -11,7 +11,6 @@ def change_field_names(gdf):
     :return: The function `change_field_names` is returning the GeoDataFrame `gdf` with all column names
     converted to lowercase.
     """
-    # Cambiar los nombres de las columnas a minúsculas
     gdf.columns = [col.lower() for col in gdf.columns]
     
     return gdf
@@ -53,4 +52,18 @@ def transform_nulls(gdf):
         elif pd.api.types.is_string_dtype(gdf[col]):
             gdf[col] = gdf[col].apply(lambda x: x if pd.notna(x) and x != "N/A" else "No aplica")
     
+    return gdf
+
+def transform_spaces(gdf):
+    """
+    The function `transform_spaces` replaces spaces in column names of a pandas DataFrame with
+    underscores.
+    
+    :param gdf: The `transform_spaces` function takes a pandas DataFrame `gdf` as input and replaces any
+    spaces in the column names with underscores. This function helps to standardize column names and
+    make them more suitable for coding purposes
+    :return: The function `transform_spaces` takes a pandas DataFrame `gdf` as input, replaces any
+    spaces in the column names with underscores, and then returns the modified DataFrame `gdf`.
+    """
+    gdf.columns = [col.replace(" ", "_") for col in gdf.columns]
     return gdf

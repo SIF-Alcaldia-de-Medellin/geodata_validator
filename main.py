@@ -44,10 +44,11 @@ for shapefile in shapefiles:
     try:
         gdf = change_field_names(gdf)
         gdf = transform_nulls(gdf)
-
+        gdf = transform_spaces(gdf)
+    
         gdf.to_file(os.path.join(current_dir,"shapes", f"{shapefile}_fixed"))
 
         print(f"Se ha guardado el shapefile con los nombres de columna en minúsculas y los valores nulos corregidos. La encontraras en la carpeta: {shapefile}_fixed")
     except Exception as e:
         print(f"Ha ocurrido un error al guardar el shapefile: {e}")
-        exit(1)
+        break
